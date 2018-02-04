@@ -37,7 +37,9 @@ async function run() {
 //    await page.waitForNavigation();
 
     await page.click(PROJECT_TITLE_SELECTOR);
-    await page.keyboard.type('NEW TITLE');
+    await page.waitFor(3*1000);
+
+    await page.keyboard.type('NEW TITLE');   //It will put the new value in the middle.
     await page.keyboard.press('Enter');
     
 
