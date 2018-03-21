@@ -1,57 +1,39 @@
 const puppeteer = require('puppeteer');
+const CREDS = require('./creds');
+const SELECTORS = require('./selectors');
 
 async function run() {
     const browser = await puppeteer.launch({
 	headless: false
-});
-    const CREDS = require('./creds');
+    });
+    
     const page = await browser.newPage();
-    const USERNAME_SELECTOR = '#pseudo-form-sender > input';
-    const PASSWORD_SELECTOR = '#pseudo-form-sender > input';
-    const BUTTON_SELECTOR = '#pseudo-form-sender > button';
-//    const PROJECT_SELECTOR = 'body > div.global-wrapper > div > div.page-container.page-dashboard > div > div > div > a:nth-child(INDEX) > div.project-card-header > div.project-card-title';
-    const PROJECT_SELECTOR = 'body > div.global-wrapper > div > div.page-container.page-dashboard > div > div > div > a:nth-child(1)' 
-    const LENGTH_SELECTOR_CLASS = 'project-card';
-    const PROJECT_TITLE_SELECTOR = '#project-name';
-//  ALL RELEATED TO PROJECT SETTING ICONS
-    const PROJECT_SETTING_SELECTOR = '#settingsDropdown > i';
-    const DAILY_EMAIL_SELECTOR = '#register-project-for-daily-email';
-    const EMAIL_NOTIFICATION_SELECTOR = '#project-settings-dropdown > ul > li.item.email-notifications'; 
-    const PROJECT_CONFIG_SELECTOR = '#project-config';
-    const PROJECT_REMOVE_SELECTOR = '#remove-project';
-    const PROJECT_CONFIG_PROJECTTIMELINE_SELECTTOR = 'body > div.bootbox.modal.project-configuration-dialog.bootbox-new-design.in > div > div > div.modal-body > div > div > div > section:nth-child(2) > div:nth-child(2) > div';
 
-    await page.goto('https://justdo.today'
-//                networkIdleTimeout: 5000,
-//                waitUntil: 'networkidle',
-//                timeout: 100000
-            );
-//    await page.screenshot({ path: 'screenshots/justdo.png' });
+    await page.goto('https://justdo.today');
 
-    await page.click(USERNAME_SELECTOR);
+    await page.click(SELECTORS.USERNAME_SELECTOR);
     await page.keyboard.type(CREDS.username);
-    await page.click(BUTTON_SELECTOR);
+    await page.click(SELECTORS.BUTTON_SELECTOR);
 
     await page.waitFor(2*1000);
-    await page.click(PASSWORD_SELECTOR);
+    await page.click(SELECTORS.PASSWORD_SELECTOR);
     await page.keyboard.type(CREDS.password);
-    await page.click(BUTTON_SELECTOR);
+    await page.click(SELECTORS.BUTTON_SELECTOR);
 
     await page.waitForNavigation();
     await page.waitFor(4*1000);  //For waiting redirecting from justdo.today to app.justdo.today
-    let projectSelector = PROJECT_SELECTOR.replace("INDEX", 1);
+    let projectSelector = SELECTORS.PROJECT_SELECTOR.replace("INDEX", 1);
     await page.click(projectSelector);
-//    await page.waitForNavigation();
 
-    await page.click(PROJECT_TITLE_SELECTOR);
+    await page.click(SELECTORS.PROJECT_TITLE_SELECTOR);
     await page.waitFor(3*1000);
 
     await page.keyboard.type('NEW TITLE');   //It will put the new value in the middle.
     await page.keyboard.press('Enter');
 
-    await page.click(PROJECT_SETTING_SELECTOR);
-    await page.click(PROJECT_CONFIG_SELECTOR);
-    await page.click(PROJECT_CONFIG_PROJECTTIMELINE_SELECTOR);
+    await page.click(SELECTORS.PROJECT_SETTING_SELECTOR);
+    await page.click(SELECTORS.PROJECT_CONFIG_SELECTOR);
+    await page.click(SELECTORS.PROJECT_CONFIG_PROJECTTIMELINE_SELECTOR);
     await page.waitForNavigation(); 
     
 
