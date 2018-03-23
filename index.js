@@ -37,7 +37,7 @@ async function run() {
     await page.waitForNavigation(); 
     
 
-    browser.close();
+    browser.close(); //End of function
 }
 
 run();
