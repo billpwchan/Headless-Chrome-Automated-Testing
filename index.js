@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const CREDS = require('./creds');
 const SELECTORS = require('./selectors');
 
-async function run() {
+(async ()=> {
     const browser = await puppeteer.launch({
 	headless: false
     });
@@ -38,6 +38,4 @@ async function run() {
     
 
     browser.close(); //End of function
-}
-
-run();
+})();
