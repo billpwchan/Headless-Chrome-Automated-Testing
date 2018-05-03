@@ -4,6 +4,7 @@ const puppeteer = require('puppeteer');
 const faker = require('/home/billpwchan/Desktop/Headless-Chrome-Automated-Testing/Faker.js/');
 
 
+
 (async ()=> {
     //while (true){
 
@@ -13,11 +14,20 @@ const faker = require('/home/billpwchan/Desktop/Headless-Chrome-Automated-Testin
         const page = await browser.newPage();
 
         await page.goto('https://www.thalesarduino.com/arduino');
+        await page.waitFor(1*1000);
+        var index = 0;
+        for (var i = 1; i < 20; i++){
+            var title = await page.evaluate(e1 => e1.innerHTML, await page.$('#edit-vote > div:nth-child('+ i + ') > h3'));
+            console.log(title);
+            if (title == "China &amp; Hong Kong – Team Aircraft Marshaller"){
+                index = i;
+                break;
+            }
+        }
 
+        await page.click('#edit-vote > div:nth-child('+ index + ') > div > label');
 
-        await page.waitForSelector('#video-thumbs > div > #edit-vote > div:nth-child(5) > div > label');        
-        await page.click('#video-thumbs > div > #edit-vote > div:nth-child(5) > div > label');
-        await page.waitFor(3*1000);
+        await page.waitFor(1*1000);
         await page.click('#edit-first-name');
         await page.keyboard.type(faker.name.firstName());
         await page.click('#edit-surname');
@@ -25,10 +35,11 @@ const faker = require('/home/billpwchan/Desktop/Headless-Chrome-Automated-Testin
         await page.click('#edit-email');
         await page.keyboard.type(faker.internet.email());
         await page.click('#edit-country');
-        await page.keyboard.type(faker.address.country());
-
+        await page.keyboard.type('Hong Kong');
+        
+        await page.waitFor(1*1000)
         await page.click('#edit-submit');
-        await page.waitFor(2*1000);
+        await page.waitFor(1*1000);
         await page.close();
 
         await browser.close();
