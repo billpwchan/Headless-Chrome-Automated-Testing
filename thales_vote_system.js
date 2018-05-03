@@ -1,28 +1,31 @@
 import { Agent } from 'https';
 
 const puppeteer = require('puppeteer');
+const faker = require('/home/billpwchan/Desktop/Headless-Chrome-Automated-Testing/Faker.js/');
 
 
 (async ()=> {
-    while (true){
+    //while (true){
 
         const browser = await puppeteer.launch({
-        headless: true
+        headless: false
         });
         const page = await browser.newPage();
 
         await page.goto('https://www.thalesarduino.com/arduino');
 
-        await page.click('#edit-vote > div:nth-child(6) > div > label');
+
+        await page.waitForSelector('#video-thumbs > div > #edit-vote > div:nth-child(5) > div > label');        
+        await page.click('#video-thumbs > div > #edit-vote > div:nth-child(5) > div > label');
         await page.waitFor(3*1000);
         await page.click('#edit-first-name');
-        await page.keyboard.type(generateName());
+        await page.keyboard.type(faker.name.firstName());
         await page.click('#edit-surname');
-        await page.keyboard.type(generateName());
+        await page.keyboard.type(faker.name.lastName());
         await page.click('#edit-email');
-        await page.keyboard.type(generateName()+getRandomInt()+"@"+"gmail.com");
+        await page.keyboard.type(faker.internet.email());
         await page.click('#edit-country');
-        await page.keyboard.type('Hong Kong');
+        await page.keyboard.type(faker.address.country());
 
         await page.click('#edit-submit');
         await page.waitFor(2*1000);
@@ -30,7 +33,7 @@ const puppeteer = require('puppeteer');
 
         await browser.close();
 
-    }
+    //}
     
     // await page.click(SELECTORS.USERNAME_SELECTOR);
     // await page.keyboard.type(CREDS.username);
