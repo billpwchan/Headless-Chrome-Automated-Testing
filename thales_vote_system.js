@@ -7,7 +7,7 @@ const puppeteer = require('puppeteer');
     while (true){
 
         const browser = await puppeteer.launch({
-        headless: false
+        headless: true
         });
         const page = await browser.newPage();
 
