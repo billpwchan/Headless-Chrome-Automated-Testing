@@ -1,48 +1,53 @@
 import { Agent } from 'https';
 
 const puppeteer = require('puppeteer');
-const faker = require('/home/billpwchan/Desktop/Headless-Chrome-Automated-Testing/Faker.js/');
+const faker = require('faker');
 
 
 
 (async ()=> {
     //while (true){
-
         const browser = await puppeteer.launch({
-        headless: false
-        });
+            headless: true,
+            });
         const page = await browser.newPage();
+        try{
 
-        await page.goto('https://www.thalesarduino.com/arduino');
-        await page.waitFor(1*1000);
-        var index = 0;
-        for (var i = 1; i < 20; i++){
-            var title = await page.evaluate(e1 => e1.innerHTML, await page.$('#edit-vote > div:nth-child('+ i + ') > h3'));
-            console.log(title);
-            if (title == "China &amp; Hong Kong – Team Aircraft Marshaller"){
-                index = i;
-                break;
+            await page.goto('https://www.thalesarduino.com/arduino');
+            await page.waitFor(1*1000);
+            var index = 0;
+            for (var i = 1; i < 20; i++){
+                var title = await page.evaluate(e1 => e1.innerHTML, await page.$('#edit-vote > div:nth-child('+ i + ') > h3'));
+                console.log(title);
+                if (title == "China &amp; Hong Kong – Team Aircraft Marshaller"){
+                    index = i;
+                    break;
+                }
             }
+
+            await page.click('#edit-vote > div:nth-child('+ index + ') > div > label');
+
+            await page.waitFor(1*1000);
+            await page.click('#edit-first-name');
+            await page.keyboard.type(faker.name.firstName());
+            await page.click('#edit-surname');
+            await page.keyboard.type(faker.name.lastName());
+            await page.click('#edit-email');
+            await page.keyboard.type(faker.internet.email());
+            await page.click('#edit-country');
+            await page.keyboard.type('Hong Kong');
+            
+            await page.waitFor(1*1000)
+            await page.click('#edit-submit');
+            await page.waitFor(1*1000);
+            await page.close();
+
+            await browser.close();
+        }catch(e){
+            console.log(e);
+            await browser.close();
         }
 
-        await page.click('#edit-vote > div:nth-child('+ index + ') > div > label');
-
-        await page.waitFor(1*1000);
-        await page.click('#edit-first-name');
-        await page.keyboard.type(faker.name.firstName());
-        await page.click('#edit-surname');
-        await page.keyboard.type(faker.name.lastName());
-        await page.click('#edit-email');
-        await page.keyboard.type(faker.internet.email());
-        await page.click('#edit-country');
-        await page.keyboard.type('Hong Kong');
-        
-        await page.waitFor(1*1000)
-        await page.click('#edit-submit');
-        await page.waitFor(1*1000);
-        await page.close();
-
-        await browser.close();
 
     //}
     
